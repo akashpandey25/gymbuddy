@@ -1,0 +1,137 @@
+# GymBrain v1.0 – Build Complete 🧠
+
+## What Was Built
+
+The full GymBrain MVP was implemented from scratch across three layers.
+
+---
+
+## Engine Layer (`engine/`)
+
+| File | What it does |
+|------|-------------|
+| [muscle/back.js](file:///c:/kotlin%20prac/Personal%20Project/engine/muscle/back.js) | 10 exercises, deadlift-last founder rule, time tiers |
+| [muscle/chest.js](file:///c:/kotlin%20prac/Personal%20Project/engine/muscle/chest.js) | 9 exercises, compound-first ordering |
+| [muscle/leg.js](file:///c:/kotlin%20prac/Personal%20Project/engine/muscle/leg.js) | 10 exercises, deduplication logic |
+| [muscle/shoulders.js](file:///c:/kotlin%20prac/Personal%20Project/engine/muscle/shoulders.js) | Rear delt always included (founder rule) |
+| [muscle/biceps.js](file:///c:/kotlin%20prac/Personal%20Project/engine/muscle/biceps.js) | 8 exercises including Chin-Ups |
+| [muscle/triceps.js](file:///c:/kotlin%20prac/Personal%20Project/engine/muscle/triceps.js) | 8 exercises including Dips |
+| [combo.js](file:///c:/kotlin%20prac/Personal%20Project/engine/combo.js) | Back+Bi / Chest+Tri / Legs+Shoulders with time-budget split |
+| [swapEngine.js](file:///c:/kotlin%20prac/Personal%20Project/engine/swapEngine.js) | Muscle-overlap scorer across all 65+ exercises |
+| [splits.js](file:///c:/kotlin%20prac/Personal%20Project/engine/splits.js) | Push / Pull / Legs / Full Body (Phase 2 ready) |
+| [generator.js](file:///c:/kotlin%20prac/Personal%20Project/engine/generator.js) | Master router for single / combo / split modes |
+
+**Time Awareness:**
+| Time | Plan |
+|------|------|
+| 60+ min | Full coverage (5+ exercises) |
+| 40–50 | Primary + secondary |
+| 25–35 | Essential compounds only |
+| <25 | Best single movement |
+
+---
+
+## Server Layer (`server/`)
+
+| Route | Method | Description |
+|-------|--------|-------------|
+| `/generate` | POST | Accepts `{ mode, target, time, equipment }` → plan array |
+| `/swap` | POST | Accepts `{ exercise, equipment }` → best substitute |
+| `/log` | POST | Saves session to Supabase `workout_logs` |
+| `/history` | GET | Returns last 10 logs for a user |
+| `/test` | GET | DB health check |
+
+---
+
+## Frontend (`web/src/`)
+
+**User flow:** Home → Muscle Select or Combo Select → Time Input → Equipment Selector → Workout Plan → Log Screen → History
+
+| Screen | Path | Purpose |
+|--------|------|---------|
+| Home | `/` | Mode selector (Single / Combo) |
+| MuscleSelect | `/single` | Pick back/chest/legs/shoulders/biceps/triceps |
+| ComboSelect | `/combo` | Back+Bi / Chest+Tri / Legs+Shoulders |
+| TimeInput | `/time` | Slider + quick pick, shows adaptive mode label |
+| EquipmentSelector | `/equipment` | Checklist → triggers `/generate` |
+| WorkoutPlan | `/workout` | Plan cards with 🔄 Busy swap button per exercise |
+| SwapModal | (component) | Bottom sheet → calls `/swap`, confirms in place |
+| LogScreen | `/log` | Session summary + notes → calls `/log` |
+| HistoryScreen | `/history` | Past sessions from `/history` |
+
+---
+
+## Verification
+
+- ✅ `npm run build` (Vite) — **passed, built in 2.21s, 0 errors**
+- ✅ Frontend dev server running on `http://localhost:5173`
+- ✅ Backend dev server running on `http://localhost:5000`
+- ✅ **Full browser walkthrough completed — all 8 screens functional**
+
+### Generated Plan (Back + Biceps, 45 min, Barbell + Dumbbell + Pull-up Bar)
+
+| # | Exercise | Sets | Reps |
+|---|----------|------|------|
+| 1 | Pullups | 4 | 8-12 |
+| 2 | Barbell Row | 4 | 8-10 |
+| 3 | Barbell Curl | 4 | 8-12 |
+| 4 | **Deadlift** 🔵 | 3 | 8→5→3 |
+
+> Deadlift correctly placed **last** — founder preference ✅
+
+### Swap Logic Test
+> Busy exercise: **Pullups** → Suggested swap: **Chin-Ups** (same lat + bicep muscles, same pullup bar equipment) ✅
+
+---
+
+### Screenshots
+
+````carousel
+![Home Screen](/C:/Users/akash/.gemini/antigravity/brain/5f2ed3f3-da56-4af9-a710-30882692dd47/home_screen_1771946581393.png)
+
+<!-- slide -->
+![Combo Select](/C:/Users/akash/.gemini/antigravity/brain/5f2ed3f3-da56-4af9-a710-30882692dd47/combo_select_page_1771946594644.png)
+
+<!-- slide -->
+![Time Selection — 45 min](/C:/Users/akash/.gemini/antigravity/brain/5f2ed3f3-da56-4af9-a710-30882692dd47/time_selection_screen_1771946614319.png)
+
+<!-- slide -->
+![Equipment Selector](/C:/Users/akash/.gemini/antigravity/brain/5f2ed3f3-da56-4af9-a710-30882692dd47/equipment_selection_screen_1771946656315.png)
+
+<!-- slide -->
+![Workout Plan — Back + Biceps](/C:/Users/akash/.gemini/antigravity/brain/5f2ed3f3-da56-4af9-a710-30882692dd47/workout_plan_screen_1771946695613.png)
+
+<!-- slide -->
+![Swap Modal — Chin-Ups found](/C:/Users/akash/.gemini/antigravity/brain/5f2ed3f3-da56-4af9-a710-30882692dd47/swap_result_screen_1771946715872.png)
+
+<!-- slide -->
+![Log Screen](/C:/Users/akash/.gemini/antigravity/brain/5f2ed3f3-da56-4af9-a710-30882692dd47/log_screen_1771946740781.png)
+
+<!-- slide -->
+![Workout Logged 💪](/C:/Users/akash/.gemini/antigravity/brain/5f2ed3f3-da56-4af9-a710-30882692dd47/workout_logged_success_screen_1771946764036.png)
+````
+
+---
+
+### Full recording of the browser session
+
+![GymBrain full flow](/C:/Users/akash/.gemini/antigravity/brain/5f2ed3f3-da56-4af9-a710-30882692dd47/gymbrain_full_flow_1771946564430.webp)
+
+---
+
+## Database (Supabase – one-time setup)
+
+Run this in your Supabase SQL editor to enable workout logging:
+
+```sql
+CREATE TABLE IF NOT EXISTS workout_logs (
+  id SERIAL PRIMARY KEY,
+  user_id TEXT NOT NULL DEFAULT 'default',
+  mode TEXT NOT NULL,
+  target TEXT[] NOT NULL,
+  time_available INT NOT NULL,
+  equipment TEXT[] NOT NULL,
+  plan JSONB NOT NULL,
+  created_at TIMESTAMPTZ DEFAULT NOW()
+);
+```

@@ -1,0 +1,86 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  * {
+    box-sizing: border-box;
+  }
+  body {
+    @apply bg-brand-dark text-white font-sans;
+    min-height: 100vh;
+    -webkit-font-smoothing: antialiased;
+  }
+}
+
+@layer components {
+  /* Glass card */
+  .card {
+    @apply bg-brand-card border border-brand-border rounded-2xl p-5;
+  }
+
+  /* Glow green button */
+  .btn-primary {
+    @apply bg-brand-green text-black font-semibold rounded-xl px-6 py-3 text-sm
+           hover:brightness-110 active:scale-95 transition-all duration-150 shadow-lg;
+    box-shadow: 0 0 20px rgba(0, 232, 122, 0.35);
+  }
+
+  /* Secondary ghost button */
+  .btn-ghost {
+    @apply border border-brand-border text-white rounded-xl px-6 py-3 text-sm font-medium
+           hover:border-brand-green hover:text-brand-green transition-all duration-150;
+  }
+
+  /* Section label (small caps above headings) */
+  .label {
+    @apply text-xs font-semibold tracking-widest uppercase text-brand-green;
+  }
+
+  /* Pill badge */
+  .badge {
+    @apply text-xs font-medium rounded-full px-3 py-0.5 bg-brand-border text-brand-muted;
+  }
+
+  /* Highlight badge */
+  .badge-green {
+    @apply text-xs font-semibold rounded-full px-3 py-0.5 bg-brand-green/10 text-brand-green border border-brand-green/30;
+  }
+
+  /* Input field */
+  .input {
+    @apply w-full bg-[#1A1A1C] border border-brand-border rounded-xl px-4 py-3 text-white text-sm
+           placeholder:text-brand-muted outline-none focus:border-brand-green transition-all;
+  }
+
+  /* Range slider */
+  input[type="range"] {
+    @apply appearance-none w-full h-1.5 rounded-full bg-brand-border cursor-pointer;
+    accent-color: #00E87A;
+  }
+
+  /* Checkable card (equipment selector) */
+  .check-card {
+    @apply card cursor-pointer select-none transition-all duration-150
+           hover:border-brand-green/60 active:scale-95;
+  }
+  .check-card.selected {
+    @apply border-brand-green bg-brand-green/5;
+    box-shadow: 0 0 12px rgba(0, 232, 122, 0.15);
+  }
+}
+
+@layer utilities {
+  .glow-green {
+    box-shadow: 0 0 30px rgba(0, 232, 122, 0.25);
+  }
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+}
