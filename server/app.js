@@ -7,6 +7,7 @@ const generateRoute = require("./routes/generate");
 const swapRoute = require("./routes/swap");
 const logRoute = require("./routes/log");
 const historyRoute = require("./routes/history");
+const statsRoute = require("./routes/stats");
 
 const app = express();
 app.use(express.json());
@@ -27,6 +28,7 @@ app.use("/generate", generateRoute);
 app.use("/swap", swapRoute);
 app.use("/log", logRoute);
 app.use("/history", historyRoute);
+app.use("/stats", statsRoute);
 
 // /equipment-options is served from the generate router
 // GET /equipment-options?muscle=<name>

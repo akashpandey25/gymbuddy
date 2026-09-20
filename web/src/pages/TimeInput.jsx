@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { ChevronLeft, ArrowRight } from "lucide-react";
 import useWorkoutStore from "../store/workoutStore";
 
 const QUICK_PICKS = [20, 30, 45, 60];
@@ -22,9 +23,16 @@ export default function TimeInput() {
     }
 
     return (
-        <div className="min-h-screen px-4 py-10 max-w-md mx-auto flex flex-col">
-            <button onClick={() => navigate(-1)} className="text-brand-muted text-sm mb-6 hover:text-white transition-colors">
-                ← Back
+        <div className="min-h-screen px-4 py-10 max-w-md mx-auto flex flex-col page-enter">
+            <button
+                onClick={() => navigate(-1)}
+                className="flex items-center gap-1.5 text-sm mb-6 transition-colors"
+                style={{ color: "#6b7280" }}
+                onMouseEnter={e => e.currentTarget.style.color = "#fff"}
+                onMouseLeave={e => e.currentTarget.style.color = "#6b7280"}
+            >
+                <ChevronLeft size={16} />
+                Back
             </button>
             <p className="label mb-2">Step 2</p>
             <h2 className="text-2xl font-bold mb-2">How much time do you have?</h2>
@@ -69,8 +77,9 @@ export default function TimeInput() {
                 ))}
             </div>
 
-            <button onClick={handleContinue} className="btn-primary w-full text-center">
-                Next → Select Equipment
+            <button onClick={handleContinue} className="btn-primary w-full text-center flex items-center justify-center gap-2">
+                Next — Select Equipment
+                <ArrowRight size={16} />
             </button>
         </div>
     );

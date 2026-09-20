@@ -98,4 +98,29 @@ router.post("/", async (req, res) => {
     }
 });
 
+// ─────────────────────────────────────────────────────────────────────────────
+// DELETE /log/:id
+// Deletes a specific workout log entry
+// ─────────────────────────────────────────────────────────────────────────────
+router.delete("/:id", async (req, res) => {
+    try {
+        const { id } = req.params;
+        const user_id = req.query.user_id || "default";
+
+        const result = await pool.query(
+            `DELETE FROM workout_logs WHERE id = $1 AND user_id = $2 RETURNING id`,
+            [id, user_id]
+        );
+
+        if (result.rows.length === 0) {
+            return res.status(404).json({ error: "Log entry not found" });
+        }
+
+        res.json({ message: "Log deleted", id: result.rows[0].id });
+    } catch (err) {
+        console.error("[DELETE /log/:id]", err.message);
+        res.status(500).json({ error: err.message });
+    }
+});
+
 module.exports = router;

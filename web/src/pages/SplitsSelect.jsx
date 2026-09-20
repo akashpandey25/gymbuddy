@@ -1,46 +1,55 @@
 import { useNavigate } from "react-router-dom";
-import { ChevronLeft, ChevronRight, Dumbbell, ArrowUpDown, Triangle } from "lucide-react";
+import { ChevronLeft, ChevronRight, ArrowUpFromLine, ArrowDownToLine, Footprints } from "lucide-react";
 import useWorkoutStore from "../store/workoutStore";
 
-const COMBOS = [
+const SPLITS = [
     {
-        id: "back+biceps",
-        targets: ["back", "biceps"],
-        Icon: Dumbbell,
-        color: "#00E87A",
-        bg: "rgba(0,232,122,0.1)",
-        label: "Back + Biceps",
-        sub: "Pull day classic — deadlift finisher included",
-        highlight: true,
-        badge: "Founder's Pick",
-    },
-    {
-        id: "chest+triceps",
-        targets: ["chest", "triceps"],
-        Icon: ArrowUpDown,
+        id: "push",
+        targets: ["chest", "shoulders", "triceps"],
+        Icon: ArrowUpFromLine,
         color: "#F97316",
         bg: "rgba(249,115,22,0.1)",
-        label: "Chest + Triceps",
-        sub: "Push day — press and extend",
+        label: "Push Day",
+        sub: "Chest · Shoulders · Triceps",
     },
     {
-        id: "legs+shoulders",
+        id: "pull",
+        targets: ["back", "biceps"],
+        Icon: ArrowDownToLine,
+        color: "#00E87A",
+        bg: "rgba(0,232,122,0.1)",
+        label: "Pull Day",
+        sub: "Back · Biceps — Deadlift finisher",
+        highlight: true,
+        badge: "Pull Classic",
+    },
+    {
+        id: "legs",
         targets: ["legs", "shoulders"],
-        Icon: Triangle,
+        Icon: Footprints,
         color: "#A78BFA",
         bg: "rgba(167,139,250,0.1)",
-        label: "Legs + Shoulders",
-        sub: "Full lower + upper press",
+        label: "Leg Day",
+        sub: "Quads · Hams · Glutes + Shoulders",
+    },
+    {
+        id: "fullbody",
+        targets: ["chest", "back", "legs", "shoulders"],
+        png: "/fullBody.png",
+        color: "#FBBF24",
+        bg: "rgba(251,191,36,0.1)",
+        label: "Full Body",
+        sub: "Compound movements across all groups",
     },
 ];
 
-export default function ComboSelect() {
+export default function SplitsSelect() {
     const navigate = useNavigate();
     const { setTarget, setMode } = useWorkoutStore();
 
-    function handleSelect(c) {
+    function handleSelect(s) {
         setMode("combo");
-        setTarget(c.targets);
+        setTarget(s.targets);
         navigate("/time");
     }
 
@@ -56,41 +65,47 @@ export default function ComboSelect() {
                 <ChevronLeft size={16} />
                 Back
             </button>
-            <p className="label mb-2">Combo Day</p>
-            <h2 className="text-2xl font-bold mb-6">Choose your pairing</h2>
+            <p className="label mb-2">Splits</p>
+            <h2 className="text-2xl font-bold mb-2">Choose your split</h2>
+            <p className="text-sm mb-8" style={{ color: "#6b7280" }}>
+                Push / Pull / Legs or Full Body — GymBuddy builds the plan.
+            </p>
 
             <div className="space-y-3">
-                {COMBOS.map(c => (
+                {SPLITS.map(s => (
                     <button
-                        key={c.id}
-                        onClick={() => handleSelect(c)}
+                        key={s.id}
+                        onClick={() => handleSelect(s)}
                         className="w-full text-left rounded-2xl p-5 transition-all duration-200 group relative"
                         style={{ background: "#161618", border: "1px solid #2A2A2E" }}
                         onMouseEnter={e => {
-                            e.currentTarget.style.borderColor = c.color;
-                            e.currentTarget.style.boxShadow = `0 0 24px ${c.color}22`;
+                            e.currentTarget.style.borderColor = s.color;
+                            e.currentTarget.style.boxShadow = `0 0 24px ${s.color}22`;
                         }}
                         onMouseLeave={e => {
                             e.currentTarget.style.borderColor = "#2A2A2E";
                             e.currentTarget.style.boxShadow = "none";
                         }}
                     >
-                        {c.highlight && (
+                        {s.highlight && (
                             <span className="absolute top-4 right-4 text-[10px] font-bold px-2 py-0.5 rounded-full"
                                 style={{ background: "rgba(0,232,122,0.12)", color: "#00E87A", border: "1px solid rgba(0,232,122,0.25)" }}>
-                                {c.badge}
+                                {s.badge}
                             </span>
                         )}
                         <div className="flex items-start gap-4">
                             <div className="flex-shrink-0 w-10 h-10 rounded-xl flex items-center justify-center"
-                                style={{ background: c.bg }}>
-                                <c.Icon size={20} color={c.color} />
+                                style={{ background: s.bg }}>
+                                {s.png
+                                    ? <img src={s.png} alt={s.label} style={{ width: 22, height: 22, objectFit: "contain" }} />
+                                    : <s.Icon size={20} color={s.color} />
+                                }
                             </div>
                             <div className="flex-1 pt-0.5">
-                                <div className="font-semibold text-base text-white">{c.label}</div>
-                                <p className="text-sm mt-1 leading-relaxed" style={{ color: "#9ca3af" }}>{c.sub}</p>
+                                <div className="font-semibold text-base text-white">{s.label}</div>
+                                <p className="text-sm mt-1" style={{ color: s.color, opacity: 0.85 }}>{s.sub}</p>
                             </div>
-                            <ChevronRight size={18} color={c.color}
+                            <ChevronRight size={18} color={s.color}
                                 className="self-center flex-shrink-0 group-hover:translate-x-1 transition-transform duration-200" />
                         </div>
                     </button>
